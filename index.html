@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biftech | Portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+margin:0;padding:0;box-sizing:border-box;
+font-family:'Inter',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:#0f172a;
+color:#e5e7eb;
+}
+
+/* HEADER */
+header{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:40px;
+}
+
+header h1{font-size:3rem;}
+header p{margin-top:15px;color:#cbd5f5;}
+
+.btn{
+display:inline-block;
+margin-top:15px;
+padding:14px 32px;
+border-radius:12px;
+background:#38bdf8;
+color:#020617;
+font-weight:600;
+transition:.3s;
+border:none;
+cursor:pointer;
+}
+
+.btn:hover{
+transform:translateY(-4px);
+background:#0ea5e9;
+}
+
+/* SECTION */
+section{
+max-width:1100px;
+margin:auto;
+padding:100px 30px;
+}
+
+section h2{
+text-align:center;
+font-size:2.3rem;
+margin-bottom:30px;
+}
+
+/* GRID & CARD */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+}
+
+.card{
+background:#020617;
+padding:28px;
+border-radius:18px;
+border:1px solid #1e293b;
+transition:.3s;
+opacity:0;
+transform:translateY(40px);
+text-align:center;
+}
+
+.card.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.card:hover{
+border-color:#38bdf8;
+transform:translateY(-6px);
+}
+
+.card i{
+font-size:2.4rem;
+margin-bottom:12px;
+color:#38bdf8;
+}
+
+/* FORM */
+input, textarea{
+width:100%;
+margin-top:10px;
+padding:12px;
+border-radius:10px;
+border:1px solid #1e293b;
+background:#0f172a;
+color:#e5e7eb;
+resize:none;
+}
+
+input::placeholder,
+textarea::placeholder{
+color:#94a3b8;
+}
+
+input:focus,
+textarea:focus{
+outline:none;
+border-color:#38bdf8;
+}
+
+/* SOCIAL BUTTONS */
+.social-buttons{
+display:flex;
+justify-content:center;
+gap:25px;
+margin-top:40px;
+}
+
+.social-btn{
+width:70px;
+height:70px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#020617;
+border:1px solid #1e293b;
+font-size:1.8rem;
+color:#e5e7eb;
+transition:.3s;
+}
+
+.social-btn:hover{
+transform:translateY(-6px) scale(1.05);
+}
+
+.social-btn.github:hover{
+color:#fff;
+box-shadow:0 0 20px rgba(255,255,255,.25);
+}
+
+.social-btn.linkedin:hover{
+color:#0a66c2;
+box-shadow:0 0 20px rgba(10,102,194,.5);
+}
+
+.social-btn.instagram:hover{
+color:#e1306c;
+box-shadow:0 0 20px rgba(225,48,108,.5);
+}
+a{
+text-decoration:none;
+}
+
+.social-btn{
+text-decoration:none;
+}
+
+/* FOOTER */
+footer{
+text-align:center;
+padding:40px;
+border-top:1px solid #1e293b;
+color:#94a3b8;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div>
+<h1>Merhaba, ben Biftech 👋</h1>
+<p>Frontend Developer • Modern UI • Clean Code</p>
+<a href="#projects" class="btn">Projelerimi Gör</a>
+</div>
+</header>
+
+<section id="about">
+<h2>Hakkımda</h2>
+<p style="text-align:center;max-width:700px;margin:auto;color:#d1d5db">
+Modern, hızlı ve performans odaklı web siteleri geliştiriyorum.
+Kullanıcı deneyimi ve temiz kod benim için öncelik.
+</p>
+</section>
+
+<section id="skills">
+<h2>Yetenekler</h2>
+<div class="grid">
+<div class="card">HTML5</div>
+<div class="card">CSS3 / Animations</div>
+<div class="card">JavaScript</div>
+<div class="card">Responsive Design</div>
+<div class="card">Git & GitHub</div>
+<div class="card">SEO Basics</div>
+</div>
+</section>
+
+<section id="projects">
+<h2>Projeler</h2>
+<div class="grid">
+<div class="card">
+<h3>Portfolio Website</h3>
+<p>Kişisel modern web sitesi</p>
+</div>
+<div class="card">
+<h3>Landing Page</h3>
+<p>Ürün tanıtım sayfası</p>
+</div>
+<div class="card">
+<h3>Web UI</h3>
+<p>Minimal kullanıcı arayüzü</p>
+</div>
+</div>
+</section>
+
+<!-- SOSYAL MEDYA -->
+<section id="socials">
+<h2>Sosyal Medya</h2>
+<div class="social-buttons">
+<a href="#" class="social-btn github"><i class="fab fa-github"></i></a>
+<a href="#" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+<a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+</div>
+</section>
+
+<!-- İLETİŞİM -->
+<section id="contact">
+<h2>İletişim</h2>
+
+<div class="grid">
+
+<div class="card">
+<i class="fas fa-envelope"></i>
+<h3>E-Posta Gönder</h3>
+<input type="email" id="senderEmail" placeholder="E-posta adresin">
+<textarea id="message" rows="4" placeholder="Mesajın"></textarea>
+<button class="btn" onclick="sendMail()">Mesaj Gönder</button>
+</div>
+
+<div class="card">
+<i class="fab fa-whatsapp"></i>
+<h3>WhatsApp</h3>
+<p>Hızlı iletişim için</p>
+<a href="https://wa.me/905XXXXXXXXX" class="btn">Mesaj At</a>
+</div>
+
+<div class="card">
+<i class="fas fa-file-download"></i>
+<h3>CV İndir</h3>
+<p>Güncel özgeçmişim</p>
+<a href="cv.pdf" download class="btn">CV’yi İndir</a>
+</div>
+
+</div>
+</section>
+
+<footer>
+© 2026 Biftech
+</footer>
+
+<script>
+/* SCROLL ANIMATION */
+const cards=document.querySelectorAll('.card');
+window.addEventListener('scroll',()=>{
+cards.forEach(card=>{
+const top=card.getBoundingClientRect().top;
+if(top<window.innerHeight-80){
+card.classList.add('show');
+}
+});
+});
+
+/* MAIL */
+function sendMail(){
+const email=document.getElementById("senderEmail").value;
+const message=document.getElementById("message").value;
+
+if(!email || !message){
+alert("Lütfen e-posta ve mesaj alanını doldurun.");
+return;
+}
+
+const subject="Portfolio İletişim";
+const body=`Gönderen: ${email}%0D%0A%0D%0AMesaj:%0D%0A${message}`;
+
+window.location.href=
+`mailto:biftechzone@gmail.com?subject=${subject}&body=${body}`;
+}
+</script>
+
+</body>
+</html>
