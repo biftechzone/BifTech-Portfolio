@@ -246,15 +246,13 @@ Kullanıcı deneyimi ve temiz kod benim için öncelik.
 <h2>İletişim</h2>
 
 <div class="grid">
-
-<div class="card">
-<i class="fas fa-envelope"></i>
-<h3>E-Posta Gönder</h3>
-<input type="email" id="senderEmail" placeholder="E-posta adresin" required pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com)$">
-<textarea id="message" rows="4" placeholder="Mesajın"></textarea>
-<button class="btn" onclick="sendMail()">Mesaj Gönder</button>
-</div>
-
+ 
+<form class="card" onsubmit="sendMail(event)">
+  <input id="email" type="email" placeholder="Mail adresin">
+  <textarea id="message" placeholder="Mesajın"></textarea>
+  <button class="btn">Gönder</button>
+</form>
+ 
 <div class="card">
 <i class="fab fa-whatsapp"></i>
 <h3>WhatsApp</h3>
@@ -275,6 +273,30 @@ Kullanıcı deneyimi ve temiz kod benim için öncelik.
 <footer>
 © 2026 Biftech
 </footer>
+ 
+ <div id="popup" style="
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+">
+  <div style="
+    background:#020617;
+    padding:25px 30px;
+    border-radius:14px;
+    border:1px solid #1e293b;
+    text-align:center;
+    max-width:300px;
+  ">
+    <p id="popupText"></p>
+    <br>
+    <button class="btn" onclick="closePopup()">Tamam</button>
+  </div>
+ </div>
+ 
 
 <script>
 /* SCROLL ANIMATION */
@@ -289,20 +311,37 @@ card.classList.add('show');
 });
 
 /* MAIL */
-function sendMail(){
-const email=document.getElementById("senderEmail").value;
-const message=document.getElementById("message").value;
-
-if(!email || !message){
-alert("Lütfen e-posta ve mesaj alanını doldurun.");
-return;
+function showPopup(text){
+  document.getElementById("popupText").innerText = text;
+  document.getElementById("popup").style.display = "flex";
 }
 
-const subject="Portfolio İletişim";
-const body=`Gönderen: ${email}%0D%0A%0D%0AMesaj:%0D%0A${message}`;
+function closePopup(){
+  document.getElementById("popup").style.display = "none";
+}
 
-window.location.href=
-`mailto:biftechzone@gmail.com?subject=${subject}&body=${body}`;
+function sendMail(e){
+  e.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  if(!email){
+    showPopup("Lütfen mail adresini gir");
+    return;
+  }
+
+  if(!email.includes("@") || !email.includes(".")){
+    showPopup("Geçerli bir mail adresi gir");
+    return;
+  }
+
+  if(!message){
+    showPopup("Lütfen mesajını yaz");
+    return;
+  }
+
+  window.location = `https://mail.google.com/mail/?view=cm&fs=1&to=biftechzone@gmail.com&su=İletişim&body=Gönderen:%20${email}%0A%0AMesaj:%20${message}`;
 }
 </script>
 
