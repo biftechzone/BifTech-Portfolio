@@ -250,7 +250,7 @@ Kullanıcı deneyimi ve temiz kod benim için öncelik.
 <div class="card">
 <i class="fas fa-envelope"></i>
 <h3>E-Posta Gönder</h3>
-<input type="email" id="senderEmail" placeholder="E-posta adresin">
+<input type="email" id="senderEmail" placeholder="E-posta adresin" required pattern="^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com)$">
 <textarea id="message" rows="4" placeholder="Mesajın"></textarea>
 <button class="btn" onclick="sendMail()">Mesaj Gönder</button>
 </div>
