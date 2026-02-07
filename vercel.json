@@ -1,0 +1,5 @@
+{
+  "routes": [
+    { "src": "/(.*)", "dest": "/blog/$1", "has": [{ "type": "host", "value": "blog.biftech.site" }] }
+  ]
+}
