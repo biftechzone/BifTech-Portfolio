@@ -1,15 +1,12 @@
 [
   {
-    "id": "deneme-123",
-    "title": "Deneme 123",
-    "tag": "deneme",
-    "content": "Deneme 123"
-  }
-  
-  {
-    "id": "biftech-baba",
-    "title": "BifTech Baba",
-    "tag": "vlog",
-    "content": "Merhaba, arkadaşlar. Ben BifTech. Asıl adım Eren. Kendimi geliştirmeye çalışan bir Frontend'ciyim."
+    "id": "deneme",
+    "title": "deneme",
+    "date": "07.02.2026",
+    "tags": [
+      "deneme",
+      "123"
+    ],
+    "content": "denme"
   }
 ]
