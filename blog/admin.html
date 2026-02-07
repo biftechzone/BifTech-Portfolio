@@ -28,7 +28,7 @@ input,textarea{
   border-radius:8px;
   color:#e5e7eb;
 }
-textarea{min-height:180px}
+textarea{min-height:160px}
 button{
   padding:10px 16px;
   border:none;
@@ -51,6 +51,7 @@ pre{
   border-radius:10px;
   overflow:auto;
   font-size:.85rem;
+  white-space:pre-wrap;
 }
 .top{
   display:flex;
@@ -72,7 +73,7 @@ pre{
 <div class="box hidden" id="admin">
 
 <div class="top">
-  <h2>Post Oluştur</h2>
+  <h2>Post Ekle</h2>
   <button class="ghost" onclick="logout()">Çıkış</button>
 </div>
 
@@ -81,12 +82,12 @@ pre{
 <input id="tags" placeholder="Etiketler (virgülle)">
 <textarea id="content" placeholder="Post içeriği"></textarea>
 
-<button class="primary" onclick="generate()">JSON Üret</button>
+<button class="primary" onclick="addPost()">Postu Listeye Ekle</button>
 
-<h3 style="margin-top:30px">Oluşan JSON</h3>
-<pre id="output">{ }</pre>
+<h3 style="margin-top:30px">posts.json (TAM HALİ)</h3>
+<pre id="jsonOutput">[]</pre>
 
-<button class="ghost" onclick="copyJSON()">JSON'u Kopyala</button>
+<button class="ghost" onclick="copyAll()">posts.json'u Kopyala</button>
 
 </div>
 
@@ -114,18 +115,24 @@ function logout(){
   location.reload();
 }
 
-function generate(){
-  const title=titleEl.value.trim();
-  const slug=slugEl.value.trim();
-  const content=contentEl.value.trim();
-  const tags=tagsEl.value.split(",").map(t=>t.trim()).filter(Boolean);
+/* POSTS ARRAY */
+let posts=[];
+
+function addPost(){
+  const title=document.getElementById("title").value.trim();
+  const slug=document.getElementById("slug").value.trim();
+  const content=document.getElementById("content").value.trim();
+  const tags=document.getElementById("tags").value
+    .split(",")
+    .map(t=>t.trim())
+    .filter(Boolean);
 
   if(!title||!slug||!content){
     alert("Başlık, slug ve içerik zorunlu");
     return;
   }
 
-  const json={
+  const post={
     id:slug,
     title:title,
     date:new Date().toLocaleDateString("tr-TR"),
@@ -133,18 +140,26 @@ function generate(){
     content:content
   };
 
-  output.textContent=JSON.stringify(json,null,2);
+  posts.unshift(post); // EN ÜSTE EKLER
+  renderJSON();
+
+  document.getElementById("title").value="";
+  document.getElementById("slug").value="";
+  document.getElementById("tags").value="";
+  document.getElementById("content").value="";
 }
 
-function copyJSON(){
-  navigator.clipboard.writeText(output.textContent);
-  alert("JSON kopyalandı");
+function renderJSON(){
+  document.getElementById("jsonOutput").textContent=
+    JSON.stringify(posts,null,2);
 }
 
-const titleEl=document.getElementById("title");
-const slugEl=document.getElementById("slug");
-const contentEl=document.getElementById("content");
-const output=document.getElementById("output");
+function copyAll(){
+  navigator.clipboard.writeText(
+    document.getElementById("jsonOutput").textContent
+  );
+  alert("posts.json kopyalandı");
+}
 </script>
 
 </body>
