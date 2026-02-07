@@ -1,219 +1,150 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>BifTech Blog | Admin</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>BifTech Blog | Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      background: #020617;
-      color: #e5e7eb;
-    }
-
-    .login,
-    .admin {
-      max-width: 900px;
-      margin: 80px auto;
-      padding: 30px;
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 14px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 8px;
-      color: #e5e7eb;
-    }
-
-    textarea {
-      min-height: 200px;
-      resize: vertical;
-    }
-
-    button {
-      padding: 12px 20px;
-      background: #38bdf8;
-      color: #020617;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #0ea5e9;
-    }
-
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .logout-btn {
-      background: transparent;
-      border: 1px solid #1e293b;
-      color: #94a3b8;
-    }
-
-    .logout-btn:hover {
-      border-color: #38bdf8;
-      color: #38bdf8;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 30px;
-    }
-
-    th, td {
-      padding: 12px;
-      border-bottom: 1px solid #1e293b;
-      text-align: left;
-      font-size: 0.9rem;
-    }
-
-    th {
-      color: #94a3b8;
-    }
-
-    .hidden {
-      display: none;
-    }
-  </style>
+<style>
+body{
+  margin:0;
+  font-family:Inter,system-ui,sans-serif;
+  background:#020617;
+  color:#e5e7eb;
+}
+.box{
+  max-width:900px;
+  margin:60px auto;
+  padding:30px;
+  border:1px solid #1e293b;
+  border-radius:14px;
+}
+input,textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:12px;
+  background:#020617;
+  border:1px solid #1e293b;
+  border-radius:8px;
+  color:#e5e7eb;
+}
+textarea{min-height:180px}
+button{
+  padding:10px 16px;
+  border:none;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+}
+.primary{background:#38bdf8;color:#020617}
+.ghost{
+  background:transparent;
+  border:1px solid #1e293b;
+  color:#94a3b8;
+}
+.ghost:hover{border-color:#38bdf8;color:#38bdf8}
+.hidden{display:none}
+pre{
+  background:#020617;
+  border:1px solid #1e293b;
+  padding:15px;
+  border-radius:10px;
+  overflow:auto;
+  font-size:.85rem;
+}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+</style>
 </head>
 <body>
 
 <!-- LOGIN -->
-<div class="login hidden" id="loginBox">
-  <h1>Admin Giriş</h1>
-  <input type="password" id="password" placeholder="Şifre">
-  <button onclick="login()">Giriş Yap</button>
+<div class="box hidden" id="login">
+  <h2>Admin Giriş</h2>
+  <input type="password" id="pw" placeholder="Şifre">
+  <button class="primary" onclick="login()">Giriş</button>
 </div>
 
 <!-- ADMIN -->
-<div class="admin hidden" id="adminBox">
+<div class="box hidden" id="admin">
 
-  <button class="logout-btn" onclick="logout()">Çıkış</button>
+<div class="top">
+  <h2>Post Oluştur</h2>
+  <button class="ghost" onclick="logout()">Çıkış</button>
+</div>
 
-  <div class="top">
-    <h1>Yeni Post Ekle</h1>
-    <a href="index.html">← Bloga dön</a>
-  </div>
+<input id="title" placeholder="Post başlığı">
+<input id="slug" placeholder="Slug (ornegin: vercel-domain)">
+<input id="tags" placeholder="Etiketler (virgülle)">
+<textarea id="content" placeholder="Post içeriği"></textarea>
 
-  <input id="title" placeholder="Post Başlığı">
-  <input id="slug" placeholder="Slug (ornek: vercel-domain-baglama)">
-  <input id="tags" placeholder="Etiketler (virgülle)">
-  <textarea id="content" placeholder="Post içeriği"></textarea>
+<button class="primary" onclick="generate()">JSON Üret</button>
 
-  <button onclick="addPost()">Postu Kaydet</button>
+<h3 style="margin-top:30px">Oluşan JSON</h3>
+<pre id="output">{ }</pre>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Başlık</th>
-        <th>Slug</th>
-        <th>Tarih</th>
-      </tr>
-    </thead>
-    <tbody id="postList"></tbody>
-  </table>
+<button class="ghost" onclick="copyJSON()">JSON'u Kopyala</button>
 
 </div>
 
 <script>
-  const PASSWORD = "biftech123"; // değiştir
-  const STORAGE_KEY = "biftech_admin_login";
+const PASS="biftech123";
+const KEY="biftech_admin";
 
-  const loginBox = document.getElementById("loginBox");
-  const adminBox = document.getElementById("adminBox");
+const loginBox=document.getElementById("login");
+const adminBox=document.getElementById("admin");
 
-  if (localStorage.getItem(STORAGE_KEY)) {
-    adminBox.classList.remove("hidden");
-  } else {
-    loginBox.classList.remove("hidden");
-  }
+if(localStorage.getItem(KEY)){
+  adminBox.classList.remove("hidden");
+}else{
+  loginBox.classList.remove("hidden");
+}
 
-  function login() {
-    const pw = document.getElementById("password").value;
-    if (pw === PASSWORD) {
-      localStorage.setItem(STORAGE_KEY, "true");
-      location.reload();
-    } else {
-      alert("Şifre yanlış");
-    }
-  }
-
-  function logout() {
-    localStorage.removeItem(STORAGE_KEY);
+function login(){
+  if(document.getElementById("pw").value===PASS){
+    localStorage.setItem(KEY,"1");
     location.reload();
+  }else alert("Şifre yanlış");
+}
+function logout(){
+  localStorage.removeItem(KEY);
+  location.reload();
+}
+
+function generate(){
+  const title=titleEl.value.trim();
+  const slug=slugEl.value.trim();
+  const content=contentEl.value.trim();
+  const tags=tagsEl.value.split(",").map(t=>t.trim()).filter(Boolean);
+
+  if(!title||!slug||!content){
+    alert("Başlık, slug ve içerik zorunlu");
+    return;
   }
 
-  let posts = [];
+  const json={
+    id:slug,
+    title:title,
+    date:new Date().toLocaleDateString("tr-TR"),
+    tags:tags,
+    content:content
+  };
 
-  fetch("posts.json")
-    .then(r => r.json())
-    .then(data => {
-      posts = data;
-      renderPosts();
-    });
+  output.textContent=JSON.stringify(json,null,2);
+}
 
-  function addPost() {
-    const title = document.getElementById("title").value.trim();
-    const slug = document.getElementById("slug").value.trim();
-    const content = document.getElementById("content").value.trim();
-    const tags = document.getElementById("tags").value
-      .split(",")
-      .map(t => t.trim())
-      .filter(Boolean);
+function copyJSON(){
+  navigator.clipboard.writeText(output.textContent);
+  alert("JSON kopyalandı");
+}
 
-    if (!title || !slug || !content) {
-      alert("Başlık, slug ve içerik zorunlu");
-      return;
-    }
-
-    const post = {
-      id: slug,
-      title,
-      date: new Date().toLocaleDateString("tr-TR"),
-      tags,
-      content
-    };
-
-    posts.unshift(post);
-    renderPosts();
-
-    alert("Post JSON'a manuel eklenmeli (statik site)");
-  }
-
-  function renderPosts() {
-    const list = document.getElementById("postList");
-    list.innerHTML = "";
-
-    posts.forEach(p => {
-      list.innerHTML += `
-        <tr>
-          <td>${p.title}</td>
-          <td>${p.id}</td>
-          <td>${p.date || ""}</td>
-        </tr>
-      `;
-    });
-  }
+const titleEl=document.getElementById("title");
+const slugEl=document.getElementById("slug");
+const contentEl=document.getElementById("content");
+const output=document.getElementById("output");
 </script>
 
 </body>
