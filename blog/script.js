@@ -21,3 +21,12 @@ fetch("posts.json")
     document.getElementById("posts").innerHTML =
       "<p>Postlar yüklenemedi.</p>";
   });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const adminBtn = document.querySelector(".admin-btn");
+  if (adminBtn) {
+    adminBtn.addEventListener("click", () => {
+      window.location.href = "admin.html";
+    });
+  }
+});
