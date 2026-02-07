@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Blog | BifTech</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>BifTech Blog | Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
@@ -13,104 +13,208 @@
       color: #e5e7eb;
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-
-    a {
-      color: #38bdf8;
-      text-decoration: none;
-    }
-
-    .back {
-      display: inline-block;
-      margin-bottom: 20px;
-      color: #94a3b8;
+    .login,
+    .admin {
+      max-width: 900px;
+      margin: 80px auto;
+      padding: 30px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
     }
 
     h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
-    .meta {
-      color: #64748b;
-      font-size: 0.9rem;
-      margin-bottom: 30px;
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      color: #e5e7eb;
     }
 
-    .content {
-      line-height: 1.7;
-      font-size: 1.05rem;
+    textarea {
+      min-height: 200px;
+      resize: vertical;
     }
 
-    .not-found {
-      text-align: center;
-      margin-top: 80px;
+    button {
+      padding: 12px 20px;
+      background: #38bdf8;
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0ea5e9;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logout-btn {
+      background: transparent;
+      border: 1px solid #1e293b;
       color: #94a3b8;
+    }
+
+    .logout-btn:hover {
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #1e293b;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    th {
+      color: #94a3b8;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
-
 <body>
 
-  <div class="container">
-    <a href="index.html" class="back">← Bloga dön</a>
+<!-- LOGIN -->
+<div class="login hidden" id="loginBox">
+  <h1>Admin Giriş</h1>
+  <input type="password" id="password" placeholder="Şifre">
+  <button onclick="login()">Giriş Yap</button>
+</div>
 
-    <div id="post">
-      <!-- post buraya gelecek -->
-    </div>
+<!-- ADMIN -->
+<div class="admin hidden" id="adminBox">
+
+  <button class="logout-btn" onclick="logout()">Çıkış</button>
+
+  <div class="top">
+    <h1>Yeni Post Ekle</h1>
+    <a href="index.html">← Bloga dön</a>
   </div>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get("id");
+  <input id="title" placeholder="Post Başlığı">
+  <input id="slug" placeholder="Slug (ornek: vercel-domain-baglama)">
+  <input id="tags" placeholder="Etiketler (virgülle)">
+  <textarea id="content" placeholder="Post içeriği"></textarea>
 
-    if (!slug) {
-      document.getElementById("post").innerHTML = `
-        <div class="not-found">
-          <h2>Post bulunamadı</h2>
-        </div>
-      `;
-      throw new Error("Slug yok");
+  <button onclick="addPost()">Postu Kaydet</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Başlık</th>
+        <th>Slug</th>
+        <th>Tarih</th>
+      </tr>
+    </thead>
+    <tbody id="postList"></tbody>
+  </table>
+
+</div>
+
+<script>
+  const PASSWORD = "biftech123"; // değiştir
+  const STORAGE_KEY = "biftech_admin_login";
+
+  const loginBox = document.getElementById("loginBox");
+  const adminBox = document.getElementById("adminBox");
+
+  if (localStorage.getItem(STORAGE_KEY)) {
+    adminBox.classList.remove("hidden");
+  } else {
+    loginBox.classList.remove("hidden");
+  }
+
+  function login() {
+    const pw = document.getElementById("password").value;
+    if (pw === PASSWORD) {
+      localStorage.setItem(STORAGE_KEY, "true");
+      location.reload();
+    } else {
+      alert("Şifre yanlış");
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  }
+
+  let posts = [];
+
+  fetch("posts.json")
+    .then(r => r.json())
+    .then(data => {
+      posts = data;
+      renderPosts();
+    });
+
+  function addPost() {
+    const title = document.getElementById("title").value.trim();
+    const slug = document.getElementById("slug").value.trim();
+    const content = document.getElementById("content").value.trim();
+    const tags = document.getElementById("tags").value
+      .split(",")
+      .map(t => t.trim())
+      .filter(Boolean);
+
+    if (!title || !slug || !content) {
+      alert("Başlık, slug ve içerik zorunlu");
+      return;
     }
 
-    fetch("./posts.json")
-      .then(res => res.json())
-      .then(posts => {
-        const post = posts.find(p => p.id === slug);
+    const post = {
+      id: slug,
+      title,
+      date: new Date().toLocaleDateString("tr-TR"),
+      tags,
+      content
+    };
 
-        if (!post) {
-          document.getElementById("post").innerHTML = `
-            <div class="not-found">
-              <h2>Konu bulunamadı</h2>
-            </div>
-          `;
-          return;
-        }
+    posts.unshift(post);
+    renderPosts();
 
-        document.title = post.title + " | BifTech Blog";
+    alert("Post JSON'a manuel eklenmeli (statik site)");
+  }
 
-        document.getElementById("post").innerHTML = `
-          <h1>${post.title}</h1>
-          <div class="meta">
-            ${post.date || ""} ${post.tags ? "• " + post.tags.join(", ") : ""}
-          </div>
-          <div class="content">
-            ${post.content.replace(/\n/g, "<br><br>")}
-          </div>
-        `;
-      })
-      .catch(() => {
-        document.getElementById("post").innerHTML = `
-          <div class="not-found">
-            <h2>Postlar yüklenemedi</h2>
-          </div>
-        `;
-      });
-  </script>
+  function renderPosts() {
+    const list = document.getElementById("postList");
+    list.innerHTML = "";
+
+    posts.forEach(p => {
+      list.innerHTML += `
+        <tr>
+          <td>${p.title}</td>
+          <td>${p.id}</td>
+          <td>${p.date || ""}</td>
+        </tr>
+      `;
+    });
+  }
+</script>
 
 </body>
 </html>
