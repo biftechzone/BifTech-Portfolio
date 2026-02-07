@@ -1,42 +1,116 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Blog Yazısı</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+  <meta charset="UTF-8" />
+  <title>Blog | BifTech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<a href="index.html" class="back">← Bloga dön</a>
-
-<main class="post-page">
-  <article id="post" class="post-card"></article>
-</main>
-
-<script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
-
-fetch("posts.json")
-  .then(res => res.json())
-  .then(posts => {
-    const post = posts.find(p => String(p.id) === String(id));
-
-    if (!post) {
-      document.getElementById("post").innerHTML =
-        "<h2>Post bulunamadı</h2>";
-      return;
+  <style>
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
     }
 
-    document.getElementById("post").innerHTML = `
-      <h1>${post.title}</h1>
-      <span class="tag">${post.tag}</span>
-      <div class="post-content">
-        ${post.content.replace(/\n/g, "<br><br>")}
-      </div>
-    `;
-  });
-</script>
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #94a3b8;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-bottom: 30px;
+    }
+
+    .content {
+      line-height: 1.7;
+      font-size: 1.05rem;
+    }
+
+    .not-found {
+      text-align: center;
+      margin-top: 80px;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <a href="index.html" class="back">← Bloga dön</a>
+
+    <div id="post">
+      <!-- post buraya gelecek -->
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("id");
+
+    if (!slug) {
+      document.getElementById("post").innerHTML = `
+        <div class="not-found">
+          <h2>Post bulunamadı</h2>
+        </div>
+      `;
+      throw new Error("Slug yok");
+    }
+
+    fetch("./posts.json")
+      .then(res => res.json())
+      .then(posts => {
+        const post = posts.find(p => p.id === slug);
+
+        if (!post) {
+          document.getElementById("post").innerHTML = `
+            <div class="not-found">
+              <h2>Konu bulunamadı</h2>
+            </div>
+          `;
+          return;
+        }
+
+        document.title = post.title + " | BifTech Blog";
+
+        document.getElementById("post").innerHTML = `
+          <h1>${post.title}</h1>
+          <div class="meta">
+            ${post.date || ""} ${post.tags ? "• " + post.tags.join(", ") : ""}
+          </div>
+          <div class="content">
+            ${post.content.replace(/\n/g, "<br><br>")}
+          </div>
+        `;
+      })
+      .catch(() => {
+        document.getElementById("post").innerHTML = `
+          <div class="not-found">
+            <h2>Postlar yüklenemedi</h2>
+          </div>
+        `;
+      });
+  </script>
 
 </body>
 </html>
