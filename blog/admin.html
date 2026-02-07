@@ -2,23 +2,140 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Post Ekle</title>
+  <title>Admin Panel | Biftech Blog</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .admin {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .form input,
+    .form textarea {
+      width: 100%;
+      padding: 12px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      color: #e5e7eb;
+      border-radius: 8px;
+    }
+
+    .form textarea {
+      grid-column: span 2;
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form button {
+      grid-column: span 2;
+      padding: 12px;
+      background: #38bdf8;
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #020617;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 14px;
+      border-bottom: 1px solid #1e293b;
+      text-align: left;
+    }
+
+    th {
+      background: #020617;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background: #020617;
+    }
+
+    .tag {
+      background: #38bdf8;
+      color: #020617;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    pre {
+      background: #020617;
+      border: 1px solid #1e293b;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      display: none;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .top a {
+      color: #38bdf8;
+    }
+  </style>
 </head>
 <body>
 
-<h2>Yeni Post</h2>
+<div class="admin">
 
-<input id="title" placeholder="Başlık">
-<input id="tag" placeholder="Etiket">
-<textarea id="content" placeholder="İçerik"></textarea>
+  <div class="top">
+    <h1>Admin Panel</h1>
+    <a href="index.html">← Bloga Dön</a>
+  </div>
 
-<button onclick="createPost()">Oluştur</button>
+  <!-- POST EKLEME -->
+  <div class="form">
+    <input id="title" placeholder="Başlık">
+    <input id="tag" placeholder="Etiket (örn: web, frontend)">
+    <textarea id="content" placeholder="Post içeriği"></textarea>
+    <button onclick="addPost()">Post Ekle</button>
+  </div>
 
-<pre id="output"></pre>
+  <!-- POST TABLOSU -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Başlık</th>
+        <th>Etiket</th>
+      </tr>
+    </thead>
+    <tbody id="table"></tbody>
+  </table>
+
+  <!-- JSON ÇIKTI -->
+  <pre id="json"></pre>
+
+</div>
 
 <script>
-function createPost() {
+let posts = [];
+
+function addPost() {
   const post = {
     id: Date.now(),
     title: title.value,
@@ -26,8 +143,31 @@ function createPost() {
     content: content.value
   };
 
-  document.getElementById("output").innerText =
-JSON.stringify(post, null, 2);
+  posts.push(post);
+  renderTable();
+  renderJSON();
+
+  title.value = "";
+  tag.value = "";
+  content.value = "";
+}
+
+function renderTable() {
+  table.innerHTML = "";
+  posts.forEach(p => {
+    table.innerHTML += `
+      <tr>
+        <td>${p.id}</td>
+        <td>${p.title}</td>
+        <td><span class="tag">${p.tag}</span></td>
+      </tr>
+    `;
+  });
+}
+
+function renderJSON() {
+  json.style.display = "block";
+  json.textContent = JSON.stringify(posts, null, 2);
 }
 </script>
 
