@@ -139,61 +139,27 @@
 </div>
 
 <script>
-let posts = [];
+const ADMIN_PASSWORD = "biftech123"; // 👈 değiştir
 
-function slugify(text) {
-  return text
-    .toLowerCase()
-    .replace(/ğ/g,"g")
-    .replace(/ü/g,"u")
-    .replace(/ş/g,"s")
-    .replace(/ı/g,"i")
-    .replace(/ö/g,"o")
-    .replace(/ç/g,"c")
-    .replace(/[^a-z0-9]+/g,"-")
-    .replace(/^-|-$/g,"");
+// Sayfa açılır açılmaz kontrol
+if (localStorage.getItem("adminLogged") === "true") {
+  showAdmin();
 }
 
-function addPost() {
-  const titleValue = title.value.trim();
+function checkPassword() {
+  const input = document.getElementById("password").value;
 
-  if (!titleValue) {
-    alert("Başlık boş olamaz");
-    return;
+  if (input === ADMIN_PASSWORD) {
+    localStorage.setItem("adminLogged", "true");
+    showAdmin();
+  } else {
+    document.getElementById("error").innerText = "Yanlış şifre";
   }
-
-  const post = {
-    id: slugify(titleValue),   // 👈 SLUG BURADA
-    title: titleValue,
-    tag: tag.value.trim(),
-    content: content.value.trim()
-  };
-
-  posts.push(post);
-  renderTable();
-  renderJSON();
-
-  title.value = "";
-  tag.value = "";
-  content.value = "";
 }
 
-function renderTable() {
-  table.innerHTML = "";
-  posts.forEach(p => {
-    table.innerHTML += `
-      <tr>
-        <td>${p.id}</td>
-        <td>${p.title}</td>
-        <td><span class="tag">${p.tag}</span></td>
-      </tr>
-    `;
-  });
-}
-
-function renderJSON() {
-  json.style.display = "block";
-  json.textContent = JSON.stringify(posts, null, 2);
+function showAdmin() {
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("adminPanel").style.display = "block";
 }
 </script>
 
