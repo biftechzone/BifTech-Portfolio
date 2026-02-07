@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "İlk Blog Yazım",
+    "tag": "web",
+    "content": "Bu benim ilk blog yazım. Biftech blog yayında!"
+  },
+  {
+    "id": 2,
+    "title": "Frontend Notları",
+    "tag": "frontend",
+    "content": "HTML, CSS ve JavaScript üzerine notlar."
+  }
+]
