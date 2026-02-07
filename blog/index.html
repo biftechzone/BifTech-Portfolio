@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biftech Blog</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+background:#0f172a;
+color:#e5e7eb;
+line-height:1.6;
+}
+
+a{
+text-decoration:none;
+color:inherit;
+}
+
+/* HEADER */
+header{
+padding:70px 20px;
+text-align:center;
+}
+
+header h1{
+font-size:2.8rem;
+}
+
+header p{
+margin-top:10px;
+color:#94a3b8;
+}
+
+/* TAGS */
+.tags{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:10px;
+margin:40px 0;
+}
+
+.tag{
+background:#020617;
+border:1px solid #1e293b;
+color:#cbd5f5;
+padding:8px 16px;
+border-radius:999px;
+cursor:pointer;
+transition:.3s;
+}
+
+.tag:hover,
+.tag.active{
+background:#38bdf8;
+color:#020617;
+border-color:#38bdf8;
+}
+
+/* POSTS */
+.posts{
+max-width:1100px;
+margin:auto;
+padding:0 20px 80px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+}
+
+.post-card{
+background:#020617;
+border:1px solid #1e293b;
+border-radius:14px;
+padding:25px;
+transition:.4s;
+opacity:0;
+transform:translateY(30px);
+}
+
+.post-card:hover{
+transform:translateY(-6px);
+border-color:#38bdf8;
+}
+
+.post-card.show{
+opacity:1;
+transform:translateY(0);
+}
+
+.post-card h3{
+margin-bottom:10px;
+}
+
+.post-card p{
+color:#94a3b8;
+font-size:.95rem;
+margin-bottom:15px;
+}
+
+.post-card span{
+color:#38bdf8;
+font-weight:600;
+}
+
+/* FOOTER */
+footer{
+text-align:center;
+padding:40px 20px;
+border-top:1px solid #1e293b;
+color:#64748b;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Biftech Blog</h1>
+<p>Frontend, Web & Öğrendiklerim</p>
+</header>
+
+<!-- TAGS -->
+<div class="tags">
+<button class="tag active" data-tag="all">Hepsi</button>
+<button class="tag" data-tag="frontend">Frontend</button>
+<button class="tag" data-tag="html">HTML</button>
+<button class="tag" data-tag="css">CSS</button>
+<button class="tag" data-tag="js">JavaScript</button>
+</div>
+
+<!-- POSTS -->
+<section class="posts">
+
+<a href="post1.html" class="post-card" data-tags="frontend html css">
+<h3>Portfolio Sitemi Nasıl Yaptım?</h3>
+<p>Kendi portfolio sitemi sıfırdan nasıl yaptığımı anlattım.</p>
+<span>Devamını oku →</span>
+</a>
+
+<a href="post2.html" class="post-card" data-tags="frontend js">
+<h3>Frontend Öğrenme Yolum</h3>
+<p>HTML, CSS ve JavaScript öğrenirken izlediğim yol.</p>
+<span>Devamını oku →</span>
+</a>
+
+<a href="post3.html" class="post-card" data-tags="css">
+<h3>Modern CSS İpuçları</h3>
+<p>Daha temiz ve modern tasarımlar için CSS tüyoları.</p>
+<span>Devamını oku →</span>
+</a>
+
+</section>
+
+<footer>
+© 2026 Biftech Blog
+</footer>
+
+<script>
+/* TAG FILTER */
+const tagButtons = document.querySelectorAll('.tag');
+const posts = document.querySelectorAll('.post-card');
+
+tagButtons.forEach(btn=>{
+btn.addEventListener('click',()=>{
+tagButtons.forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+
+const tag = btn.dataset.tag;
+
+posts.forEach(post=>{
+const tags = post.dataset.tags;
+post.style.display =
+tag === 'all' || tags.includes(tag)
+? 'block'
+: 'none';
+});
+});
+});
+
+/* SCROLL ANIMATION */
+const observer = new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add('show');
+}
+});
+},{ threshold:0.15 });
+
+posts.forEach(post=>observer.observe(post));
+</script>
+
+</body>
+  </html>
