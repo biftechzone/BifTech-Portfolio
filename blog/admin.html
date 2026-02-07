@@ -98,8 +98,14 @@
     }
   </style>
 </head>
+<div id="adminPanel" style="display:none;">
 <body>
-
+<div id="loginScreen" class="login">
+  <h2>Admin Girişi</h2>
+  <input type="password" id="password" placeholder="Şifre">
+  <button onclick="checkPassword()">Giriş</button>
+  <p id="error"></p>
+</div>
 <div class="admin">
 
   <div class="top">
@@ -192,4 +198,5 @@ function renderJSON() {
 </script>
 
 </body>
+</div>
 </html>
