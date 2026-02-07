@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Post Ekle</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Yeni Post</h2>
+
+<input id="title" placeholder="Başlık">
+<input id="tag" placeholder="Etiket">
+<textarea id="content" placeholder="İçerik"></textarea>
+
+<button onclick="createPost()">Oluştur</button>
+
+<pre id="output"></pre>
+
+<script>
+function createPost() {
+  const post = {
+    id: Date.now(),
+    title: title.value,
+    tag: tag.value,
+    content: content.value
+  };
+
+  document.getElementById("output").innerText =
+JSON.stringify(post, null, 2);
+}
+</script>
+
+</body>
+</html>
