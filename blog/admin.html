@@ -4,10 +4,78 @@
   <meta charset="UTF-8">
   <title>Admin Panel | Biftech Blog</title>
   <link rel="stylesheet" href="style.css">
+
   <style>
+    body {
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    .login {
+      max-width: 360px;
+      margin: 120px auto;
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .login input {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      background: #020617;
+      border: 1px solid #1e293b;
+      color: #e5e7eb;
+      border-radius: 8px;
+    }
+
+    .login button {
+      width: 100%;
+      padding: 12px;
+      background: #38bdf8;
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .login p {
+      color: #f87171;
+      margin-top: 10px;
+    }
+
     .admin {
       max-width: 1100px;
       margin: auto;
+      display: none;
+    }
+
+    .logout-btn {
+      float: right;
+      margin-bottom: 20px;
+      background: transparent;
+      border: 1px solid #1e293b;
+      color: #94a3b8;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .logout-btn:hover {
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      clear: both;
     }
 
     .form {
@@ -59,13 +127,7 @@
     }
 
     th {
-      background: #020617;
       color: #94a3b8;
-      font-weight: 600;
-    }
-
-    tr:hover {
-      background: #020617;
     }
 
     .tag {
@@ -85,38 +147,32 @@
       overflow-x: auto;
       display: none;
     }
-
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-
-    .top a {
-      color: #38bdf8;
-    }
   </style>
 </head>
-<div id="adminPanel" style="display:none;">
 <body>
+
+<!-- 🔒 LOGIN -->
 <div id="loginScreen" class="login">
   <h2>Admin Girişi</h2>
   <input type="password" id="password" placeholder="Şifre">
   <button onclick="checkPassword()">Giriş</button>
   <p id="error"></p>
 </div>
-<div class="admin">
+
+<!-- 🛠 ADMIN PANEL -->
+<div id="adminPanel" class="admin">
+
+  <button onclick="logout()" class="logout-btn">Çıkış Yap</button>
 
   <div class="top">
     <h1>Admin Panel</h1>
     <a href="index.html">← Bloga Dön</a>
   </div>
 
-  <!-- POST EKLEME -->
+  <!-- POST EKLE -->
   <div class="form">
     <input id="title" placeholder="Başlık">
-    <input id="tag" placeholder="Etiket (örn: web, frontend)">
+    <input id="tag" placeholder="Etiket">
     <textarea id="content" placeholder="Post içeriği"></textarea>
     <button onclick="addPost()">Post Ekle</button>
   </div>
@@ -125,7 +181,7 @@
   <table>
     <thead>
       <tr>
-        <th>ID</th>
+        <th>ID (Slug)</th>
         <th>Başlık</th>
         <th>Etiket</th>
       </tr>
@@ -140,29 +196,78 @@
 
 <script>
 const ADMIN_PASSWORD = "biftech123"; // 👈 değiştir
+let posts = [];
 
-// Sayfa açılır açılmaz kontrol
+/* otomatik giriş */
 if (localStorage.getItem("adminLogged") === "true") {
   showAdmin();
 }
 
 function checkPassword() {
-  const input = document.getElementById("password").value;
-
+  const input = password.value;
   if (input === ADMIN_PASSWORD) {
     localStorage.setItem("adminLogged", "true");
     showAdmin();
   } else {
-    document.getElementById("error").innerText = "Yanlış şifre";
+    error.innerText = "Yanlış şifre";
   }
 }
 
 function showAdmin() {
-  document.getElementById("loginScreen").style.display = "none";
-  document.getElementById("adminPanel").style.display = "block";
+  loginScreen.style.display = "none";
+  adminPanel.style.display = "block";
+}
+
+function logout() {
+  localStorage.removeItem("adminLogged");
+  location.reload();
+}
+
+/* SLUG */
+function slugify(text) {
+  return text.toLowerCase()
+    .replace(/ğ/g,"g").replace(/ü/g,"u")
+    .replace(/ş/g,"s").replace(/ı/g,"i")
+    .replace(/ö/g,"o").replace(/ç/g,"c")
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-|-$/g,"");
+}
+
+function addPost() {
+  const post = {
+    id: slugify(title.value),
+    title: title.value,
+    tag: tag.value,
+    content: content.value
+  };
+
+  posts.push(post);
+  renderTable();
+  renderJSON();
+
+  title.value = "";
+  tag.value = "";
+  content.value = "";
+}
+
+function renderTable() {
+  table.innerHTML = "";
+  posts.forEach(p => {
+    table.innerHTML += `
+      <tr>
+        <td>${p.id}</td>
+        <td>${p.title}</td>
+        <td><span class="tag">${p.tag}</span></td>
+      </tr>
+    `;
+  });
+}
+
+function renderJSON() {
+  json.style.display = "block";
+  json.textContent = JSON.stringify(posts, null, 2);
 }
 </script>
 
 </body>
-</div>
 </html>
