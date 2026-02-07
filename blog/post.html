@@ -2,25 +2,41 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Biftech Blog</title>
-
-  <!-- EMBED -->
-  <meta property="og:title" content="Biftech Blog">
-  <meta property="og:description" content="Yazılım, projeler ve notlar">
-  <meta property="og:url" content="https://blog.biftech.site/">
-  <meta property="og:type" content="website">
-
+  <title>Blog Yazısı</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <h1>Biftech Blog</h1>
-  <p>Yazılım • Web • Notlar</p>
-</header>
+<a href="index.html" class="back">← Bloga dön</a>
 
-<section class="posts" id="posts"></section>
+<main class="post-page">
+  <article id="post" class="post-card"></article>
+</main>
 
-<script src="script.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+fetch("posts.json")
+  .then(res => res.json())
+  .then(posts => {
+    const post = posts.find(p => String(p.id) === String(id));
+
+    if (!post) {
+      document.getElementById("post").innerHTML =
+        "<h2>Post bulunamadı</h2>";
+      return;
+    }
+
+    document.getElementById("post").innerHTML = `
+      <h1>${post.title}</h1>
+      <span class="tag">${post.tag}</span>
+      <div class="post-content">
+        ${post.content.replace(/\n/g, "<br><br>")}
+      </div>
+    `;
+  });
+</script>
+
 </body>
 </html>
