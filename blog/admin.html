@@ -135,12 +135,32 @@
 <script>
 let posts = [];
 
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .replace(/ğ/g,"g")
+    .replace(/ü/g,"u")
+    .replace(/ş/g,"s")
+    .replace(/ı/g,"i")
+    .replace(/ö/g,"o")
+    .replace(/ç/g,"c")
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-|-$/g,"");
+}
+
 function addPost() {
+  const titleValue = title.value.trim();
+
+  if (!titleValue) {
+    alert("Başlık boş olamaz");
+    return;
+  }
+
   const post = {
-    id: Date.now(),
-    title: title.value,
-    tag: tag.value,
-    content: content.value
+    id: slugify(titleValue),   // 👈 SLUG BURADA
+    title: titleValue,
+    tag: tag.value.trim(),
+    content: content.value.trim()
   };
 
   posts.push(post);
