@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Platform</title>
+<title>VideoHub</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,39 +11,68 @@
 <header>
   <div>
     <h1>VideoHub</h1>
-    <p>Trending & Popular Videos</p>
+    <p>Trending Adult Media</p>
+
+    <div class="tab-bar">
+      <button class="tab active" onclick="showTab('video', this)">🎬 Video</button>
+      <button class="tab" onclick="showTab('photo', this)">🖼 Foto</button>
+    </div>
   </div>
 </header>
 
-<!-- HOME PAGE -->
 <section id="home">
-  <h2>Trending</h2>
 
-  <div class="grid">
-    <div class="card video-card" onclick="openPlayer('Video Title 1','assets/videos/sample.mp4')">
-      <img src="assets/thumbs/v1.jpg">
-      <div class="video-info">
-        <span>⭐ 4.8</span>
-        <span>👁 120K</span>
+  <!-- VIDEO TAB -->
+  <div id="videoTab">
+    <h2>Trending Videos</h2>
+
+    <div class="grid">
+      <div class="card video-card"
+        onclick="openPlayer('Video Title 1','assets/videos/sample.mp4')">
+        <img src="assets/thumbs/v1.jpg">
+        <div class="video-info">
+          <span>⭐ 4.8</span>
+          <span>👁 120K</span>
+        </div>
       </div>
-    </div>
 
-    <div class="card video-card" onclick="openPlayer('Video Title 2','assets/videos/sample.mp4')">
-      <img src="assets/thumbs/v2.jpg">
-      <div class="video-info">
-        <span>⭐ 4.6</span>
-        <span>👁 98K</span>
+      <div class="card video-card"
+        onclick="openPlayer('Video Title 2','assets/videos/sample.mp4')">
+        <img src="assets/thumbs/v2.jpg">
+        <div class="video-info">
+          <span>⭐ 4.6</span>
+          <span>👁 98K</span>
+        </div>
       </div>
-    </div>
 
-    <div class="card video-card" onclick="openPlayer('Video Title 3','assets/videos/sample.mp4')">
-      <img src="assets/thumbs/v3.jpg">
-      <div class="video-info">
-        <span>⭐ 4.9</span>
-        <span>👁 210K</span>
+      <div class="card video-card"
+        onclick="openPlayer('Video Title 3','assets/videos/sample.mp4')">
+        <img src="assets/thumbs/v3.jpg">
+        <div class="video-info">
+          <span>⭐ 4.9</span>
+          <span>👁 210K</span>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- PHOTO TAB -->
+  <div id="photoTab" style="display:none">
+    <h2>Trending Photos</h2>
+
+    <div class="grid">
+      <div class="card">
+        <img src="assets/thumbs/v1.jpg">
+      </div>
+      <div class="card">
+        <img src="assets/thumbs/v2.jpg">
+      </div>
+      <div class="card">
+        <img src="assets/thumbs/v3.jpg">
+      </div>
+    </div>
+  </div>
+
 </section>
 
 <!-- PLAYER PAGE -->
