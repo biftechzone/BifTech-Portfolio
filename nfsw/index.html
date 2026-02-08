@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Platform</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>VideoHub</h1>
+    <p>Trending & Popular Videos</p>
+  </div>
+</header>
+
+<!-- HOME PAGE -->
+<section id="home">
+  <h2>Trending</h2>
+
+  <div class="grid">
+    <div class="card video-card" onclick="openPlayer('Video Title 1','assets/videos/sample.mp4')">
+      <img src="assets/thumbs/v1.jpg">
+      <div class="video-info">
+        <span>⭐ 4.8</span>
+        <span>👁 120K</span>
+      </div>
+    </div>
+
+    <div class="card video-card" onclick="openPlayer('Video Title 2','assets/videos/sample.mp4')">
+      <img src="assets/thumbs/v2.jpg">
+      <div class="video-info">
+        <span>⭐ 4.6</span>
+        <span>👁 98K</span>
+      </div>
+    </div>
+
+    <div class="card video-card" onclick="openPlayer('Video Title 3','assets/videos/sample.mp4')">
+      <img src="assets/thumbs/v3.jpg">
+      <div class="video-info">
+        <span>⭐ 4.9</span>
+        <span>👁 210K</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAYER PAGE -->
+<section id="playerPage" style="display:none">
+  <button class="btn" onclick="goHome()">← Back</button>
+
+  <div class="player-box">
+    <video id="playerVideo" controls autoplay></video>
+  </div>
+
+  <h2 id="playerTitle"></h2>
+
+  <div class="video-meta">
+    <span>👍 12K</span>
+    <span>💬 340</span>
+    <span>👁 120K</span>
+  </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
