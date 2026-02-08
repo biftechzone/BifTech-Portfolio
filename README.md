@@ -3,3 +3,4 @@
 
 https://biftech.site/img/favicon.jpg
 https://blog.biftech.site/admin.html
+https://ai.biftech.site
