@@ -22,27 +22,3 @@
     }
   ]
 }
-{
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/ai/index.html",
-      "has": [
-        {
-          "type": "host",
-          "value": "ai.biftech.site"
-        }
-      ]
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/ai/$1",
-      "has": [
-        {
-          "type": "host",
-          "value": "ai.biftech.site"
-        }
-      ]
-    }
-  ]
-}
