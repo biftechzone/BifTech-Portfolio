@@ -59,6 +59,46 @@ const generateResponse = async (botMsgDiv) => {
   const textElement = botMsgDiv.querySelector(".message-text");
   controller = new AbortController();
   
+  chatHistory.push({
+    role: "user",
+    parts: [{ text: userData.message }, ...(userData.file.data ? [{ inline_data: (({ fileName, isImage, ...rest }) => rest)(userData.file) }] : [])],
+  });
+  
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contents: chatHistory }),
+      signal: controller.signal,
+    });
+    
+    // EĞER HATA VARSA BURASI ÇALIŞACAK:
+    if (!response.ok) {
+        const errorText = await response.text(); 
+        console.error("GOOGLE'DAN GELEN CEVAP:", errorText);
+        // Ekrana hatanın ne olduğunu yazdırıyoruz:
+        textElement.textContent = "Hata Mesajı: " + errorText.substring(0, 150);
+        textElement.style.color = "#d62939";
+        botMsgDiv.classList.remove("loading");
+        return;
+    }
+    
+    const data = await response.json();
+    const responseText = data.candidates[0].content.parts[0].text.replace(/\*\*([^*]+)\*\*/g, "$1").trim();
+    typingEffect(responseText, textElement, botMsgDiv);
+    
+    chatHistory.push({ role: "model", parts: [{ text: responseText }] });
+  } catch (error) {
+    textElement.textContent = error.name === "AbortError" ? "İşlem durduruldu." : "Bağlantı hatası: " + error.message;
+    textElement.style.color = "#d62939";
+    botMsgDiv.classList.remove("loading");
+    document.body.classList.remove("bot-responding");
+    scrollToBottom();
+  } finally {
+    userData.file = {};
+  }
+};
+  
   // Add user message and file data to the chat history
   chatHistory.push({
     role: "user",
