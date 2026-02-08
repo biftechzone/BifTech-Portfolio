@@ -21,11 +21,12 @@
       ]
     }
   ]
-  
+}
+{
   "routes": [
     {
-      "src": "/",
-      "dest": "/ai/index.html",
+      "src": "/api/(.*)",
+      "dest": "/api/$1",
       "has": [
         {
           "type": "host",
@@ -35,7 +36,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/ai/$2",
+      "dest": "/$1",
       "has": [
         {
           "type": "host",
