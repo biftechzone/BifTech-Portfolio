@@ -11,9 +11,9 @@ const themeToggleBtn = document.querySelector("#theme-toggle-btn");
 // APK_KEY and API_URL ගන්න දන්නේ නැත්නම් 074185766 මෙ whatsapp number ekat මැසෙජ් එකක් දාන්න ✅✨
 
 
-const API_KEY = "You_API_KEY එක මෙතනට දාන්න";
+const API_KEY = "AIzaSyDTzASO2xEFcwdbyasnwIx1ENUJQ64ozFU";
 
- const API_URL = `මෙතනට API_URL එක දාන්න`;
+ const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDTzASO2xEFcwdbyasnwIx1ENUJQ64ozFU`;
 
 let controller, typingInterval;
 const chatHistory = [];
