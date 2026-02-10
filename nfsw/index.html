@@ -6,92 +6,51 @@
 <title>VideoHub</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header>
-  <div>
-    <h1>VideoHub</h1>
-    <p>Trending Adult Media</p>
+  <h1>VideoHub</h1>
+  <p>Videoya veya fotoğrafa tıkla 😈</p>
 
-    <div class="tab-bar">
-      <button class="tab active" onclick="showTab('video', this)">🎬 Video</button>
-      <button class="tab" onclick="showTab('photo', this)">🖼 Foto</button>
-    </div>
+  <div class="nav">
+    <button class="active" onclick="showSection('videos',this)">Video</button>
+    <button onclick="showSection('photos',this)">Foto</button>
   </div>
 </header>
 
-<section id="home">
+<section>
 
-  <!-- VIDEO TAB -->
-  <div id="videoTab">
-    <h2>Trending Videos</h2>
-
-    <div class="grid">
-      <div class="card video-card"
-        onclick="openPlayer('Video Title 1','assets/videos/VID-20251110-WA0219.mp4')">
-        <img src="assets/thumbs/Screenshot_20260131-200603.jpg">
-        <div class="video-info">
-          <span>⭐ 4.8</span>
-          <span>👁 120K</span>
-        </div>
-      </div>
-
-      <div class="card video-card"('Video Title 2', 'https://files.catbox.moe/xxgdom.mp4')">
-        <img src="assets/thumbs/IMG-20260209-WA0033.jpg">
-        <div class="video-info">
-          <span>⭐ 4.6</span>
-          <span>👁 98K</span>
-        </div>
-      </div>
-
-      <div class="card video-card"
-        onclick="openPlayer('Beauty with Big Ass Passionately Fucks in the Jacuzzi')">
-        <iframe src="https://files.catbox.moe/xxgdom.mp4"></iframe>
-        <img src="assets/thumbs/ef0a0d08-d59a-4b8d-a0fb-bf12be6e61a2.jpeg">
-        <div class="video-info">
-          <span>⭐ 4.9</span>
-          <span>👁 210K</span>
-        </div>
-      </div>
-    </div>
+<!-- VIDEOS -->
+<div id="videos" class="grid">
+  <div class="card video-card" onclick="openPlayer('https://files.catbox.moe/VIDEO1.mp4')">
+    <img src="https://files.catbox.moe/THUMB1.jpg">
+    <div class="play-overlay">▶</div>
   </div>
 
-  <!-- PHOTO TAB -->
-  <div id="photoTab" style="display:none">
-    <h2>Trending Photos</h2>
-
-    <div class="grid">
-      <div class="card">
-        <img src="assets/thumbs/Screenshot_20260131-200603.jpg">
-      </div>
-        <a href="assets/thumbs/Screenshot_20260131-200603.jpg" download class="btn">İndir</a>
-      <div class="card">
-        <img src="assets/thumbs/v2.jpg">
-      </div>
-      <div class="card">
-        <img src="assets/thumbs/v3.jpg">
-      </div>
-    </div>
+  <div class="card video-card" onclick="openPlayer('https://files.catbox.moe/VIDEO2.mp4')">
+    <img src="https://files.catbox.moe/THUMB2.jpg">
+    <div class="play-overlay">▶</div>
   </div>
+</div>
+
+<!-- PHOTOS -->
+<div id="photos" class="grid hidden">
+  <div class="card">
+    <img src="https://files.catbox.moe/FOTO1.jpg">
+  </div>
+  <div class="card">
+    <img src="https://files.catbox.moe/FOTO2.jpg">
+  </div>
+</div>
 
 </section>
 
-<!-- PLAYER PAGE -->
-<section id="playerPage" style="display:none">
-  <button class="btn" onclick="goHome()">← Back</button>
-
-  <div class="player-box">
-    <video id="playerVideo" controls autoplay></video>
-  </div>
-
-  <h2 id="playerTitle"></h2>
-
-  <div class="video-meta">
-    <span>👍 12K</span>
-    <span>💬 340</span>
-    <span>👁 120K</span>
-  </div>
-</section>
+<!-- PLAYER MODAL -->
+<div id="playerModal" class="player-modal">
+  <span class="close-btn" onclick="closePlayer()">✕</span>
+  <video id="playerVideo" controls autoplay></video>
+</div>
 
 <script src="script.js"></script>
 </body>
