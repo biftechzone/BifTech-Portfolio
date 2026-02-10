@@ -13,7 +13,7 @@ const themeToggleBtn = document.querySelector("#theme-toggle-btn");
 
 const API_KEY = "AIzaSyAf1bYFxPOTsiz-yTHd4bCEJMUuVSOGCRE";
 
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?X-goog-api-key:AIzaSyAf1bYFxPOTsiz-yTHd4bCEJMUuVSOGCRE`;
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key:AIzaSyAf1bYFxPOTsiz-yTHd4bCEJMUuVSOGCRE`;
 
 let controller, typingInterval;
 const chatHistory = [];
