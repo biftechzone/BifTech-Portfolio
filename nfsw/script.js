@@ -1,31 +1,29 @@
-const home = document.getElementById("home");
-const playerPage = document.getElementById("playerPage");
-const playerVideo = document.getElementById("playerVideo");
-const playerTitle = document.getElementById("playerTitle");
+function openPlayer(videoUrl){
+  const modal = document.getElementById("playerModal");
+  const video = document.getElementById("playerVideo");
 
-function openPlayer(title, src){
-  home.style.display = "none";
-  playerPage.style.display = "block";
-  playerTitle.innerText = title;
-  playerVideo.src = src;
-  window.scrollTo(0,0);
+  video.src = videoUrl;
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
 }
 
-function goHome(){
-  playerVideo.pause();
-  playerVideo.src = "";
-  playerPage.style.display = "none";
-  home.style.display = "block";
+function closePlayer(){
+  const modal = document.getElementById("playerModal");
+  const video = document.getElementById("playerVideo");
+
+  video.pause();
+  video.src = "";
+  modal.style.display = "none";
+  document.body.style.overflow = "auto";
 }
 
-/* TAB SWITCH */
-function showTab(type, el){
-  document.getElementById("videoTab").style.display =
-    type === "video" ? "block" : "none";
+function showSection(id, btn){
+  document.getElementById("videos").classList.add("hidden");
+  document.getElementById("photos").classList.add("hidden");
+  document.getElementById(id).classList.remove("hidden");
 
-  document.getElementById("photoTab").style.display =
-    type === "photo" ? "block" : "none";
+  document.querySelectorAll(".nav button")
+    .forEach(b => b.classList.remove("active"));
 
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  el.classList.add("active");
+  btn.classList.add("active");
 }
