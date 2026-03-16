@@ -377,6 +377,15 @@ function sendMail(e){
 
   window.location = `https://mail.google.com/mail/?view=cm&fs=1&to=biftechzone@gmail.com&su=İletişim&body=Gönderen:%20${email}%0A%0AMesaj:%20${message}`;
 }
+ 
+const host = window.location.hostname;
+if(host === "nfsw.biftech.site"){
+    window.location.href = "/nfsw/index.html";
+}
+const host = window.location.hostname;
+if(host === "blog.biftech.site"){
+    window.location.href = "/blog/index.html";
+}
 </script>
 
 </body>
